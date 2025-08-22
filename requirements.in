@@ -1,0 +1,17 @@
+# Django web framework
+django==5.2.5
+
+# Django CORS(Cross Origin Resource Sharing)
+django-cors-headers==4.7.0
+
+# Django REST Framework for building APIs
+djangorestframework==3.16.1
+
+# Django Rest Framework and Simple-JWT
+djangorestframework_simplejwt==5.5.1
+
+# Uvicorn for ASGI apps (useful with Django + asynchronous)
+uvicorn==0.35.0
+
+# Swagger / API docs
+drf-spectacular==0.28.0
