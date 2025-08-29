@@ -14,9 +14,12 @@ attrs==25.3.0
     #   referencing
 click==8.2.1
     # via uvicorn
+dj-database-url==3.0.1
+    # via -r requirements.in
 django==5.2.5
     # via
     #   -r requirements.in
+    #   dj-database-url
     #   django-cors-headers
     #   djangorestframework
     #   djangorestframework-simplejwt
@@ -40,6 +43,10 @@ jsonschema==4.25.1
     # via drf-spectacular
 jsonschema-specifications==2025.4.1
     # via jsonschema
+psycopg2==2.9.10
+    # via -r requirements.in
+psycopg2-binary==2.9.10
+    # via -r requirements.in
 pyjwt==2.10.1
     # via djangorestframework-simplejwt
 pyyaml==6.0.2
