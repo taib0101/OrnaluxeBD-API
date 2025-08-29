@@ -1,4 +1,5 @@
 from pathlib import Path
+import dj_database_url
 
 from swagger import SPECTACULAR_DEFAULTS
 from typing import Dict, Any
@@ -71,10 +72,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default="postgres://root:1234@localhost:5432/mydatabase",
+        conn_max_age=None # keeps single connection for all quires + transactions session
+    )
 }
 
 
@@ -126,6 +127,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "EXCEPTION_HANDLER": "src.supports.handlers.handle_result"
 }
 
 # Django Rest Framework Spectacular 
