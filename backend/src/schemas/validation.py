@@ -11,7 +11,7 @@ def input_validation(SchemaName, data_in):
         return data_in
 
     except ValidationError:
-        return AppExceptionCase.BadRequest("Bad Request")
+        raise AppExceptionCase.BadRequest("Bad Request")
     
 
 def output_validation(SchemaName, data_out):
@@ -25,5 +25,5 @@ def output_validation(SchemaName, data_out):
         return data_out
     
     except ValidationError:
-        return AppExceptionCase.DatabaseError("Database Error")
+        raise AppExceptionCase.DatabaseError("Database Error")
 
