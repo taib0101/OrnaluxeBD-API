@@ -1,13 +1,9 @@
 from rest_framework.views import APIView
 
 from src.docs import create_role, read_role_query, read_role_all, update_role, delete_role
-<<<<<<< HEAD
-from src.middleware import LoggedInAdmin
-from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
-=======
+
 from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
 from src.middleware import LoggedInAdmin
->>>>>>> master
 from src.services import role_services
 
 
