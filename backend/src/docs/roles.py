@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema, OpenApiParameter, inline_serializer
 
-from src.schemas import RoleIn, RoleOut, RoleTotallOut, RoleDelete
+from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleDelete
 
 id_parameter = (
     OpenApiParameter(
@@ -14,6 +14,7 @@ id_parameter = (
 def create_role(request: RoleIn, responses: RoleOut):
 
     return extend_schema(
+        auth=[{"jwtAuth": []}],
         summary="Create",
         description="Create a role",
         tags=["Role"],
@@ -21,9 +22,10 @@ def create_role(request: RoleIn, responses: RoleOut):
         responses=responses
     )
 
-def read_role_all(request: None, responses: RoleTotallOut):
+def read_role_all(request: None, responses: RoleTotalOut):
 
     return extend_schema(
+        auth=[{"jwtAuth": []}],
         summary="Read",
         description="Read a role",
         tags=["Role"],
@@ -31,9 +33,10 @@ def read_role_all(request: None, responses: RoleTotallOut):
         responses=responses
     )
 
-def read_role_query(request: None, responses: RoleTotallOut):
+def read_role_query(request: None, responses: RoleTotalOut):
 
     return extend_schema(
+        auth=[{"jwtAuth": []}],
         summary="Read",
         description="Read a role",
         tags=["Role"],
@@ -42,9 +45,10 @@ def read_role_query(request: None, responses: RoleTotallOut):
         responses=responses
     )
 
-def update_role(request: RoleIn, responses: RoleTotallOut):
+def update_role(request: RoleIn, responses: RoleTotalOut):
 
     return extend_schema(
+        auth=[{"jwtAuth": []}],
         summary="Update",
         description="Update a role",
         tags=["Role"],
@@ -56,6 +60,7 @@ def update_role(request: RoleIn, responses: RoleTotallOut):
 def delete_role(request: None, responses: RoleDelete):
 
     return extend_schema(
+        auth=[{"jwtAuth": []}],
         summary="Delete",
         description="Delete a role",
         tags=["Role"],
