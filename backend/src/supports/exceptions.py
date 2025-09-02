@@ -21,3 +21,7 @@ class AppExceptionCase():
         def __init__(self, message):
             super().__init__(message, 500)
 
+    class UnAuthorized(AppException):
+        def __init__(self, message):
+            super().__init__(message, 401)
+
