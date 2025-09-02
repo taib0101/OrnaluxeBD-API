@@ -2,9 +2,9 @@
 from typing import Dict, Any
 
 SPECTACULAR_DEFAULTS: Dict[str, Any] = {
-    'TITLE': 'Project API',            # API title
-    'DESCRIPTION': 'Project Description',  # Short description
-    'VERSION': '1.0.0',                     # API version
+    'TITLE': 'OrnaluxeBD API',            # API title
+    'DESCRIPTION': '',                    # Short description
+    'VERSION': '1.0.0',                   # API version
 
     # OpenAPI version
     'OAS_VERSION': '3.0.3',
