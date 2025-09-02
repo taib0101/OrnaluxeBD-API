@@ -21,8 +21,8 @@ class Base:
         return model_to_dict(create_data)
     
     def read_all(self, ModelName: str):
-        
-        read_data = self.model_dict[ModelName].objects.all()
+        with transaction.atomic():
+            read_data = self.model_dict[ModelName].objects.all()
 
         return {
             "total": len(read_data),
@@ -30,11 +30,11 @@ class Base:
         }
     
     def read(self, ModelName: str, query_data: dict):
-
         try:
-            read_data = self.model_dict[ModelName].objects.filter(**query_data)
-            if not read_data:
-                return AppExceptionCase.NotFoundError("Not Found")
+            with transaction.atomic():
+                read_data = self.model_dict[ModelName].objects.filter(**query_data)
+                if not read_data:
+                    raise AppExceptionCase.NotFoundError("Not Found")
 
             return {
                 "total": len(read_data),
@@ -42,16 +42,15 @@ class Base:
             }
 
         except ValidationError:
-            return AppExceptionCase.NotFoundError("Not Found")
+            raise AppExceptionCase.NotFoundError("Not Found")
 
     def update(self, ModelName: str, query_data: dict, data_update: dict, temp_write: str):
-
         try:
             with transaction.atomic():
                 updated_data = self.model_dict[ModelName].objects.filter(**query_data).update(**data_update, updated_at=timezone.now())
 
                 if not updated_data:
-                    return AppExceptionCase.NotFoundError("Not Found")
+                    raise AppExceptionCase.NotFoundError("Not Found")
 
                 if temp_write == "yes":
                     transaction.set_rollback(True)
@@ -62,15 +61,14 @@ class Base:
             return updated_data
         
         except ValidationError:
-            return AppExceptionCase.NotFoundError("Not Found")
+            raise AppExceptionCase.NotFoundError("Not Found")
         
     def delete(self, ModelName: str, query_data: dict, temp_write: str):
         try:
             with transaction.atomic():
                 delete_data = self.model_dict[ModelName].objects.filter(**query_data).delete()
-                
-                if not delete_data:
-                    return AppExceptionCase.NotFoundError("Not Found")
+                if not delete_data[0]:
+                    raise AppExceptionCase.NotFoundError("Not Found")
 
                 if temp_write == "yes":
                     transaction.set_rollback(True)
@@ -81,4 +79,4 @@ class Base:
             }
 
         except ValidationError:
-            return AppExceptionCase.NotFoundError("Not Found")
+            raise AppExceptionCase.NotFoundError("Not Found")
