@@ -4,7 +4,7 @@ from src.utils import unique_id
 
 class Role(models.Model):
 
-    role_id = models.UUIDField(primary_key=True, default=unique_id, unique=True)
+    role_id = models.CharField(primary_key=True, default=unique_id, unique=True)
     name = models.CharField(max_length=100, unique=True, null=False)
     created_at = models.DateTimeField(null=False)
     updated_at = models.DateTimeField(null=True)
@@ -16,7 +16,7 @@ class Role(models.Model):
 
 class User(models.Model):
 
-    user_id = models.UUIDField(primary_key=True, default=unique_id, unique=True)
+    user_id = models.CharField(primary_key=True, default=unique_id, unique=True)
 
     # One to One                   # on delete cascade                  # back_populates like sqlalchemy
     role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True, related_name="users")
