@@ -1,8 +1,13 @@
 from rest_framework.views import APIView
 
 from src.docs import create_role, read_role_query, read_role_all, update_role, delete_role
+<<<<<<< HEAD
 from src.middleware import LoggedInAdmin
 from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
+=======
+from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
+from src.middleware import LoggedInAdmin
+>>>>>>> master
 from src.services import role_services
 
 
@@ -29,6 +34,7 @@ class RoleRead(APIView):
 
         return data
     
+
 class RoleReadAll(APIView):
 
     authentication_classes = [LoggedInAdmin]
@@ -39,6 +45,7 @@ class RoleReadAll(APIView):
             data = role_services.read_role_all(request=request)
 
         return data
+
 
 class RoleUpdate(APIView):
 
@@ -51,7 +58,7 @@ class RoleUpdate(APIView):
 
         return data
     
-
+    
 class RoleDelete(APIView):
 
     authentication_classes = [LoggedInAdmin]
