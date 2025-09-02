@@ -1,12 +1,17 @@
 from pathlib import Path
 import dj_database_url
+import os
+import sys
 
 from swagger import SPECTACULAR_DEFAULTS
 from typing import Dict, Any
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load dotenv
+load_dotenv(os.path.join(os.path.dirname(__file__), "../.env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -18,6 +23,28 @@ SECRET_KEY = 'django-insecure-i3d-3gwag*@65pv63k8sj$-h2kd62b7n1h^gmc#z8km59z%vu@
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Database URL
+DATABASE_URL = (
+    os.getenv("DEVELOPMENT_DATABASE_URL")
+    if sys.argv[2].lower() == "development"
+    else os.getenv("PRODUCTION_DATABASE_URL")
+)
+
+# Secret Key for JWT Token
+SECRET_TOKEN_KEY = (
+    os.getenv("DEVELOPMENT_SECRET_TOKEN_KEY")
+    if sys.argv[2].lower() == "development"
+    else os.getenv("PRODUCTION_SECRET_TOKEN_KEY")
+)
+
+# Secret Algorithm for JWT Token
+SECRET_TOKEN_ALGO = (
+    os.getenv("DEVELOPMENT_SECRET_TOKEN_ALGO")
+    if sys.argv[2].lower() == "development"
+    else os.getenv("PRODUCTION_SECRET_TOKEN_ALGO")
+)
+
 
 
 # Application definition
@@ -73,7 +100,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default="postgres://root:1234@localhost:5432/mydatabase",
+        default=DATABASE_URL, # local host: postgres://root:1234@localhost:5432/mydatabase
         conn_max_age=None # keeps single connection for all quires + transactions session
     )
 }
