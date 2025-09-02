@@ -24,3 +24,8 @@ uvicorn==0.35.0
 # Swagger / API docs
 drf-spectacular==0.28.0
 
+# bcrypt for generating hash
+bcrypt==4.3.0
+
+# dotenv
+dotenv==0.9.9
