@@ -11,7 +11,7 @@ class RoleOut(RoleBase):
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField(required=False, allow_null=True)
 
-class RoleTotallOut(serializers.Serializer):
+class RoleTotalOut(serializers.Serializer):
     total = serializers.IntegerField()
     data = RoleOut(many=True)
 
