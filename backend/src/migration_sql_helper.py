@@ -12,6 +12,8 @@ def set_null_foreign_key(child_table, child_col, parent_table, constraint_name):
 
 
 """
+give command : $ python3 manage.py makemigrations --empty src
+
 class Migration(migrations.Migration):
 
     dependencies = [
