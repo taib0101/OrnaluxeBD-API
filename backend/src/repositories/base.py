@@ -1,5 +1,5 @@
 from django.forms.models import model_to_dict
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
@@ -11,14 +11,18 @@ class Base:
         self.model_dict = model_dict
 
     def create(self, ModelName: str, data_in: dict, temp_write: str):
-        with transaction.atomic():
-            create_data = self.model_dict[ModelName].objects.create(**data_in, created_at=timezone.now())
+        try:
+            with transaction.atomic():
+                create_data = self.model_dict[ModelName].objects.create(**data_in, created_at=timezone.now())
 
-            if temp_write == "yes":
-                transaction.set_rollback(True)
-                return None
-            
-        return model_to_dict(create_data)
+                if temp_write == "yes":
+                    transaction.set_rollback(True)
+                    return None
+                
+            return model_to_dict(create_data)
+        
+        except IntegrityError:
+            raise AppExceptionCase.DuplicateEntry("Duplicate Value")
     
     def read_all(self, ModelName: str):
         with transaction.atomic():
