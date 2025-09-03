@@ -25,3 +25,7 @@ class AppExceptionCase():
         def __init__(self, message):
             super().__init__(message, 401)
 
+    class DuplicateEntry(AppException):
+        def __init__(self, message):
+            print(message)
+            super().__init__(message, 409)
