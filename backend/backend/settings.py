@@ -27,21 +27,21 @@ ALLOWED_HOSTS = []
 # Database URL
 DATABASE_URL = (
     os.getenv("DEVELOPMENT_DATABASE_URL")
-    if sys.argv[2].lower() == "development"
+    if "development" in sys.argv
     else os.getenv("PRODUCTION_DATABASE_URL")
 )
 
 # Secret Key for JWT Token
 SECRET_TOKEN_KEY = (
     os.getenv("DEVELOPMENT_SECRET_TOKEN_KEY")
-    if sys.argv[2].lower() == "development"
+    if "development" in sys.argv
     else os.getenv("PRODUCTION_SECRET_TOKEN_KEY")
 )
 
 # Secret Algorithm for JWT Token
 SECRET_TOKEN_ALGO = (
     os.getenv("DEVELOPMENT_SECRET_TOKEN_ALGO")
-    if sys.argv[2].lower() == "development"
+    if "development" in sys.argv
     else os.getenv("PRODUCTION_SECRET_TOKEN_ALGO")
 )
 
