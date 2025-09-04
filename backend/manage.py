@@ -7,12 +7,13 @@ import os
 import sys
 import uvicorn
 from django.core.management import execute_from_command_line
+from django.conf import settings
 
 def run_uvicorn():
     uvicorn.run(
         "backend.asgi:application", 
-        host="127.0.0.1", 
-        port=8000, 
+        host=settings.HOST, 
+        port=settings.BIND_PORT, 
         reload=True, 
         log_level="info"
     )
