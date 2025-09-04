@@ -1,10 +1,9 @@
+from django.conf import settings
 import jwt
 from datetime import datetime, timedelta, timezone
 from jwt import InvalidTokenError, ExpiredSignatureError
 
 from src.supports import AppExceptionCase
-from backend.settings import SECRET_TOKEN_ALGO, SECRET_TOKEN_KEY
-
 class Token:
 
     @staticmethod
@@ -16,13 +15,13 @@ class Token:
             "exp": expire_time
         }
 
-        return jwt.encode(payload, SECRET_TOKEN_KEY, algorithm=SECRET_TOKEN_ALGO)
+        return jwt.encode(payload, settings.SECRET_TOKEN_KEY, algorithm=settings.SECRET_TOKEN_ALGO)
     
     @staticmethod
     def verify_token(token: str):
         
         try:
-            token_data = jwt.decode(token, SECRET_TOKEN_KEY, algorithms=SECRET_TOKEN_ALGO)
+            token_data = jwt.decode(token, settings.SECRET_TOKEN_KEY, algorithms=settings.SECRET_TOKEN_ALGO)
             return token_data
         except (InvalidTokenError, ExpiredSignatureError):
             raise AppExceptionCase.UnAuthorized("Invalid or Expire Token")
