@@ -22,7 +22,7 @@ class Base:
             return model_to_dict(create_data)
         
         except IntegrityError:
-            raise AppExceptionCase.DuplicateEntry("Duplicate Value")
+            raise AppExceptionCase.Conflict("Duplicate Value")
     
     def read_all(self, ModelName: str):
         with transaction.atomic():
