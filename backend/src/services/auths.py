@@ -41,13 +41,11 @@ class AuthService:
 
     def auth_check(self, request):
         token_credential = request.headers["Authorization"].split()[1]
-        print("token_data : ", token_credential)
 
         token_to_data = Token.verify_token(token_credential)
         token_to_data['user_id'] = token_to_data.pop('sub')
         token_to_data.pop('exp')
 
-        print("token_data : ", token_to_data)
         user_data = self.repo.read(ModelName="User", query_data=token_to_data)
         data = output_validation(SchemaName=UserOut, data_out=user_data['data'][0])
 
