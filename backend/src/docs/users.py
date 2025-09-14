@@ -5,7 +5,7 @@ from src.schemas import UserIn, UserOut, UserTotalOut, UserUpdate, UserDelete
 def id_parameter(required: bool): 
 
     return OpenApiParameter(
-        name="id",
+        name="user_id",
         description="Enter your id",
         required=required,
         type=str
@@ -15,7 +15,7 @@ def id_parameter(required: bool):
 def mail_parameter(required: bool) : 
 
     return OpenApiParameter(
-        name="mail",
+        name="email",
         description="Enter your mail",
         required=False,
         type=OpenApiTypes.EMAIL
@@ -36,8 +36,8 @@ def create_user(request: UserIn, responses: UserOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Create",
-        description="Create a user",
+        summary="Create A Single User",
+        description="Create A Single User",
         tags=["User"],
         request=request,
         responses=responses
@@ -47,8 +47,8 @@ def read_user_query(request: None, responses: UserTotalOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Read",
-        description="Read a user",
+        summary="Read A Single User",
+        description="Read A Single User",
         tags=["User"],
         parameters=[
             id_parameter(False), 
@@ -63,8 +63,8 @@ def read_user_all(request: None, responses: UserTotalOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Read",
-        description="Read users",
+        summary="Read All User",
+        description="Read All User",
         tags=["User"],
         request=request,
         responses=responses
@@ -74,8 +74,8 @@ def update_user(request: UserUpdate, responses: UserTotalOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Update",
-        description="Update a user",
+        summary="Update A Single User",
+        description="Update A Single User",
         tags=["User"],
         parameters=[id_parameter(True)],
         request=request,
@@ -86,8 +86,8 @@ def delete_user(request: None, responses: UserDelete):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Delete",
-        description="Delete a user",
+        summary="Delete A Single User",
+        description="Delete A Single User",
         tags=["User"],
         parameters=[id_parameter(True)],
         request=request,
