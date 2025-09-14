@@ -4,6 +4,7 @@ from json import loads
 from src.schemas import AdminIn, input_validation
 from src.repositories import role_repos
 from src.utils import Hash
+from src.supports import AppExceptionCase
 
 class AdminService:
 
@@ -14,6 +15,9 @@ class AdminService:
         requested_body = loads(request.body)
 
         admin_data = input_validation(SchemaName=AdminIn, data_in=requested_body)
+
+        if admin_data['role_name'] != 'admin':
+            raise AppExceptionCase.Conflict(" Only SuperUser account is allowed.")
 
         # role create of admin
         role_data = user_data = {}
