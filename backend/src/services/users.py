@@ -40,11 +40,6 @@ class UserService:
     def read_user_query(self, request):
         query_data = request.GET.dict()
 
-
-        if 'id' in query_data:
-            query_data['user_id'] = query_data.pop('id')
-        if 'mail' in query_data:
-            query_data['email'] = query_data.pop('mail')
         if 'mobile_number' in query_data:
             query_data['phone'] = query_data.pop('mobile_number')
 
@@ -59,7 +54,6 @@ class UserService:
         data_update = input_validation(SchemaName=UserUpdate, data_in=requested_body)
 
         query_data = request.GET.dict()
-        query_data["user_id"] = query_data.pop("id")
 
         data = self.repo.update(ModelName="User", query_data=query_data, data_update=data_update, temp_write="no")
         data = output_validation(SchemaName=UserTotalOut, data_out=data)
@@ -68,7 +62,6 @@ class UserService:
     
     def delete_user(self, request):
         query_data = request.GET.dict()
-        query_data["user_id"] = query_data.pop("id")
 
         data = self.repo.delete(ModelName="User", query_data=query_data, temp_write="no")
 
