@@ -27,7 +27,6 @@ class RoleService:
     
     def read_role_query(self, request):
         query_data = request.GET.dict()
-        query_data["role_id"] = query_data.pop("id")
 
         data = self.repo.read(ModelName="Role", query_data=query_data)
         data = output_validation(SchemaName=RoleTotalOut, data_out=data)
@@ -40,7 +39,6 @@ class RoleService:
         data_update = input_validation(SchemaName=RoleUpdate, data_in=requested_body)
 
         query_data = request.GET.dict()
-        query_data["role_id"] = query_data.pop("id")
 
         data = self.repo.update(ModelName="Role", query_data=query_data, data_update=data_update, temp_write="no")
         data = output_validation(SchemaName=RoleTotalOut, data_out=data)
@@ -49,7 +47,6 @@ class RoleService:
     
     def delete_role(self, request):
         query_data = request.GET.dict()
-        query_data["role_id"] = query_data.pop("id")
 
         data = self.repo.delete(ModelName="Role", query_data=query_data, temp_write="no")
 
