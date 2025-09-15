@@ -2,14 +2,14 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter, inline_serial
 
 from src.schemas import RoleIn, RoleOut, RoleUpdate, RoleTotalOut, RoleDelete
 
-id_parameter = (
-    OpenApiParameter(
+def id_parameter(): 
+
+    return OpenApiParameter(
         name="role_id",
         description="Enter your id",
         required=True,
         type=str
     )
-)
 
 def create_role(request: RoleIn, responses: RoleOut):
 
@@ -40,7 +40,7 @@ def read_role_query(request: None, responses: RoleTotalOut):
         summary="Read A Single Role",
         description="Read a role",
         tags=["Role"],
-        parameters=[id_parameter],
+        parameters=[id_parameter()],
         request=request,
         responses=responses
     )
@@ -52,7 +52,7 @@ def update_role(request: RoleUpdate, responses: RoleTotalOut):
         summary="Update A Single Role",
         description="Update A Single Role",
         tags=["Role"],
-        parameters=[id_parameter],
+        parameters=[id_parameter()],
         request=request,
         responses=responses
     )
@@ -64,7 +64,7 @@ def delete_role(request: None, responses: RoleDelete):
         summary="Delete A Single Role",
         description="Delete A Single Role",
         tags=["Role"],
-        parameters=[id_parameter],
+        parameters=[id_parameter()],
         request=request,
         responses=responses
     )
