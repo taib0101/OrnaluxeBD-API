@@ -3,6 +3,7 @@ from .models import *
 class DictModel:
     Role = Role
     User = User
+    Category = Category
 
 
 dict_model = {
