@@ -12,7 +12,9 @@ class Role(models.Model):
     
     class Meta:
         db_table = "roles"
+        models.Index(fields=["serial_number"])
         models.Index(fields=["role_id"])
+        models.Index(fields=["name"])
 
     # override for autoincrement
     def save(self, *args, **kwargs):
@@ -38,6 +40,7 @@ class User(models.Model):
 
     class Meta:
         db_table = "users"
+        models.Index(fields=["serial_number"])
         models.Index(fields=["user_id"])
         models.Index(fields=["email"])
         models.Index(fields=["phone"])
@@ -47,3 +50,22 @@ class User(models.Model):
         self.serial_number = (last.serial_number + 1) if last else 1
         super().save(*args, **kwargs)
     
+
+class Category(models.Model):
+
+    serial_number = models.IntegerField(unique=True, null=False)
+    category_id = models.CharField(primary_key=True, default=unique_id, unique=True)
+    name = models.CharField(max_length=300, null=False)
+    created_at = models.DateTimeField(null=False)
+    updated_at = models.DateTimeField(null=True)
+
+    class Meta:
+        db_table = "categories"
+        models.Index(fields=["serial_number"])
+        models.Index(fields=["category_id"])
+        models.Index(fields=["name"])
+
+    def save(self, *args, **kwargs):
+        last = Category.objects.order_by("-serial_number").first()
+        self.serial_number = (last.serial_number + 1) if last else 1
+        super().save(*args, **kwargs)
