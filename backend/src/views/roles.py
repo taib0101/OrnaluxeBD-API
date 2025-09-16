@@ -34,6 +34,7 @@ class RoleRead(APIView):
 class RoleReadAll(APIView):
 
     authentication_classes = [LoggedInAdmin]
+    http_method_names = ['get']
 
     @read_role_all(request=None, responses=RoleTotalOut)
     def get(self, request):
