@@ -10,7 +10,5 @@ class AdminSignUp(APIView):
 
     @sign_up(request=AdminIn, responses=None)
     def post(self, request):
-        if request.method == "POST":
-            data = admin_services.create_inital_admin(request=request)
-
+        data = admin_services.create_inital_admin(request=request)
         return data
