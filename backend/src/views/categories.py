@@ -12,9 +12,7 @@ class CategoryCreate(APIView):
 
     @create_category(request=CategoryIn, responses=CategoryOut)
     def post(self, request):
-        if request.method == "POST":
-            data = category_services.category_create(request=request)
-
+        data = category_services.category_create(request=request)
         return data
     
 
@@ -24,9 +22,7 @@ class CategoryRead(APIView):
 
     @read_category_query(request=None, responses=CategoryTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = category_services.read_category_query(request=request)
-
+        data = category_services.read_category_query(request=request)
         return data
     
 class CategoryReadAll(APIView):
@@ -35,9 +31,7 @@ class CategoryReadAll(APIView):
 
     @read_category_all(request=None, responses=CategoryTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = category_services.read_category_all(request=request)
-
+        data = category_services.read_category_all(request=request)
         return data
     
 class CategoryUpdate(APIView):
@@ -46,9 +40,7 @@ class CategoryUpdate(APIView):
 
     @update_category(request=CategoryUpdate, responses=CategoryOut)
     def post(self, request):
-        if request.method == "POST":
-            data = category_services.update_category(request=request)
-
+        data = category_services.update_category(request=request)
         return data
     
 class CategoryDelete(APIView):
@@ -57,8 +49,6 @@ class CategoryDelete(APIView):
 
     @delete_category(request=None, responses=CategoryDelete)
     def get(self, request):
-        if request.method == "GET":
-            data = category_services.delete_category(request=request)
-
+        data = category_services.delete_category(request=request)
         return data
 
