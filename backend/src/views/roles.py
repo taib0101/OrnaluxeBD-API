@@ -1,3 +1,4 @@
+from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from src.docs import create_role, read_role_query, read_role_all, update_role, delete_role
@@ -5,7 +6,7 @@ from src.docs import create_role, read_role_query, read_role_all, update_role, d
 from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
 from src.middleware import LoggedInAdmin
 from src.services import role_services
-
+from src.supports import AppExceptionCase
 
 class RoleCreate(APIView):
 
@@ -41,8 +42,9 @@ class RoleReadAll(APIView):
         if request.method == "GET":
             data = role_services.read_role_all(request=request)
 
-        return data
+            return data
 
+        raise AppExceptionCase.NotFoundError("NotFound")
 
 class RoleUpdate(APIView):
 
