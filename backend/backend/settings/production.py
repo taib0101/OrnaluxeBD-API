@@ -20,3 +20,6 @@ DATABASES = {
         conn_max_age=None # keeps single connection for all quires + transactions session
     )
 }
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
