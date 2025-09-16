@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 
-from src.schemas import AuthLogIn, AuthTokenOut, UserOut
+from src.schemas import AuthLogIn, AuthTokenOut
 from src.middleware import LoggedInAdmin
 from src.services import auth_services
 from src.docs import login, auth_check
@@ -11,9 +11,7 @@ class Login(APIView):
 
     @login(request=AuthLogIn, responses=AuthTokenOut)
     def post(self, request):
-        if request.method == "POST":
-            data = auth_services.login(request=request)
-
+        data = auth_services.login(request=request)
         return data
 
 class Auth(APIView):
@@ -22,7 +20,5 @@ class Auth(APIView):
 
     @auth_check(request=None, responses=AuthTokenOut)
     def get(self, request):
-        if request.method == "GET":
-            data = auth_services.auth_check(request=request)
-
+        data = auth_services.auth_check(request=request)
         return data
