@@ -38,13 +38,12 @@ class RoleReadAll(APIView):
 
     @read_role_all(request=None, responses=RoleTotalOut)
     def get(self, request):
-        if request.method != "GET":
-            raise AppExceptionCase.NotFoundError("Not Found")
-
         data = role_services.read_role_all(request=request)
         return data
 
-
+    def handle_exception(self, exc):
+        return super().handle_exception(exc)
+    
 class RoleUpdate(APIView):
 
     authentication_classes = [LoggedInAdmin]
