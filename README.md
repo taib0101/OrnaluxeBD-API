@@ -4,7 +4,8 @@
 This is a monolithic **E-Commerce API** built with **Django ORM** and **Django REST Framework**, following **SOLID principles** and the **Repository Design Pattern** for clean **CRUD** operations.  
 The project uses **Agile methodologies** and is planned to include **CI/CD pipelines** and **Dockerized deployment with Nginx on AWS** for scalability and cloud readiness.
 
-
+## API DOCS Link
+API documentation here: [OpenAPI Docs with Swagger](https://ornaluxebd-api.onrender.com/api/docs/)
 
 ## Requirements
 - **Python**: 3.11.12
