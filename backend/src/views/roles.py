@@ -39,12 +39,10 @@ class RoleReadAll(APIView):
 
     @read_role_all(request=None, responses=RoleTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = role_services.read_role_all(request=request)
+        data = role_services.read_role_all(request=request)
 
-            return data
+        return data
 
-        raise AppExceptionCase.NotFoundError("NotFound")
 
 class RoleUpdate(APIView):
 
