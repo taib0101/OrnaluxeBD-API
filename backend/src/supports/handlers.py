@@ -10,6 +10,6 @@ def handle_result(exception, context):
     print("response: ", response)
 
     if response:
-        return Response({"error": exception.message}, status=response.status_code)
+        return Response({"error": "exception"}, status=response.status_code)
 
     return Response({"error": str(exception)}, status=500)
