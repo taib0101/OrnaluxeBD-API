@@ -1,12 +1,9 @@
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from src.docs import create_role, read_role_query, read_role_all, update_role, delete_role
-
 from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, RoleDelete
 from src.middleware import LoggedInAdmin
 from src.services import role_services
-from src.supports import AppExceptionCase
 
 class RoleCreate(APIView):
 
@@ -14,23 +11,17 @@ class RoleCreate(APIView):
 
     @create_role(request=RoleIn, responses=RoleOut)
     def post(self, request):
-        if request.method == "POST":
-            data = role_services.create_role(request=request)
-
+        data = role_services.create_role(request=request)
         return data
     
-
 class RoleRead(APIView):
 
     authentication_classes = [LoggedInAdmin]
 
     @read_role_query(request=None, responses=RoleTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = role_services.read_role_query(request=request)
-
+        data = role_services.read_role_query(request=request)
         return data
-    
 
 class RoleReadAll(APIView):
 
@@ -40,9 +31,6 @@ class RoleReadAll(APIView):
     def get(self, request):
         data = role_services.read_role_all(request=request)
         return data
-
-    def handle_exception(self, exc):
-        return super().handle_exception(exc)
     
 class RoleUpdate(APIView):
 
@@ -50,9 +38,7 @@ class RoleUpdate(APIView):
 
     @update_role(request=RoleUpdate, responses=RoleTotalOut)
     def post(self, request):
-        if request.method == "POST":
-            data = role_services.update_role(request=request)
-
+        data = role_services.update_role(request=request)
         return data
     
     
@@ -62,8 +48,6 @@ class RoleDelete(APIView):
 
     @delete_role(request=None, responses=RoleDelete)
     def get(self, request):
-        if request.method == "GET":
-            data = role_services.delete_role(request=request)
-
+        data = role_services.delete_role(request=request)
         return data
     
