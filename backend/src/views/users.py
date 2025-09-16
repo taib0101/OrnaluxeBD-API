@@ -12,9 +12,7 @@ class UserCreate(APIView):
 
     @create_user(request=UserIn, responses=UserOut)
     def post(self, request):
-        if request.method == "POST":
-            data = user_services.create_user(request=request)
-
+        data = user_services.create_user(request=request)
         return data
     
 
@@ -24,9 +22,7 @@ class UserRead(APIView):
 
     @read_user_query(request=None, responses=UserTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = user_services.read_user_query(request=request)
-
+        data = user_services.read_user_query(request=request)
         return data
 class UserReadAll(APIView):
 
@@ -34,9 +30,7 @@ class UserReadAll(APIView):
 
     @read_user_all(request=None, responses=UserTotalOut)
     def get(self, request):
-        if request.method == "GET":
-            data = user_services.read_user_all(request=request)
-
+        data = user_services.read_user_all(request=request)
         return data
 
 class UserUpdate(APIView):
@@ -45,9 +39,7 @@ class UserUpdate(APIView):
 
     @update_user(request=UserUpdate, responses=UserTotalOut)
     def post(self, request):
-        if request.method == "POST":
-            data = user_services.update_user(request=request)
-
+        data = user_services.update_user(request=request)
         return data
 
 class UserDelete(APIView):
@@ -56,7 +48,5 @@ class UserDelete(APIView):
 
     @delete_user(request=None, responses=UserDelete)
     def get(self, request):
-        if request.method == "GET":
-            data = user_services.delete_user(request=request)
-
+        data = user_services.delete_user(request=request)
         return data
