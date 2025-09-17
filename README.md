@@ -1,4 +1,4 @@
-# Project Name
+# OrnaluxeBD-API
 
 ## About
 This is a monolithic **E-Commerce API** built with **Django ORM** and **Django REST Framework**, following **SOLID principles** and the **Repository Design Pattern** for clean **CRUD** operations.  
@@ -109,8 +109,8 @@ psql -U postgres -W -d mydatabase
 
 ## Apply Migrations
 ```bash
-python3 manage.py makemigrations development
-python3 manage.py migrate development
+python3 backend/manage.py makemigrations development
+python3 backend/manage.py migrate development
 ```
 
 ## Setup .env
