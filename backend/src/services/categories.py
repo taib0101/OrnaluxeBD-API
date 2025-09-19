@@ -28,7 +28,7 @@ class CategoryService:
     def read_category_query(self, request):
         query_data = request.GET.dict()
 
-        data = self.repo.read_category_query(query_data=query_data) 
+        data = self.repo.read_category_query(query_data=query_data)
         data = output_validation(SchemaName=CategoryTotalOut, data_out=data)
 
         return Response(data, status=200)
