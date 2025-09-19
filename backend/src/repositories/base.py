@@ -46,7 +46,7 @@ class Base:
             }
 
         except ValidationError:
-            raise AppExceptionCase.NotFoundError("Not Found")
+            return AppExceptionCase.NotFoundError("Not Found")
 
     def update(self, ModelName: str, query_data: dict, data_update: dict, temp_write: str):
         try:
