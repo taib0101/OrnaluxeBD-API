@@ -1,14 +1,13 @@
 from rest_framework.response import Response
 from json import loads
 
-from src.repositories import auth_repos
+from src.repositories import auth_repos, AuthRepo
 from src.schemas import AuthLogIn, UserOut, input_validation, output_validation
-from src.utils import Hash, Token
-from src.supports import AppException, AppExceptionCase
+from src.utils import Token
 
 class AuthService:
 
-    def __init__(self, repo):
+    def __init__(self, repo: AuthRepo):
         self.repo = repo
 
     def login(self, request):
@@ -21,14 +20,7 @@ class AuthService:
         else:
             data_in['phone'] = data_in.pop('identifier')
 
-        temp_data_in = data_in.copy()
-        temp_data_in.pop('password')
-
-        login_data = self.repo.read(ModelName="User", query_data=temp_data_in)
-
-        check_password = Hash.check_pass(data_in['password'], login_data['data'][0]['password'])
-        if isinstance(login_data, AppException) or not check_password:
-            raise AppExceptionCase.UnAuthorized("Invalid Login")
+        login_data = self.repo.read_for_auth(query_data=data_in)
 
         token = {
             'access_token': Token.create_token(
