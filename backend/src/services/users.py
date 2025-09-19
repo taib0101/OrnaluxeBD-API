@@ -1,13 +1,13 @@
 from rest_framework.response import Response
 from json import loads
 
-from src.repositories import user_repos
+from src.repositories import user_repos, UserRepo
 from src.schemas import UserIn, UserOut, UserTotalOut, UserUpdate, input_validation, output_validation
 from src.utils import Hash
 
 class UserService:
 
-    def __init__(self, repo):
+    def __init__(self, repo: UserRepo):
         self.repo = repo
 
     def create_user(self, request):
@@ -43,7 +43,7 @@ class UserService:
         if 'mobile_number' in query_data:
             query_data['phone'] = query_data.pop('mobile_number')
 
-        data = self.repo.read(ModelName="User", query_data=query_data)
+        data = self.repo.read_user_query(query_data=query_data)
         data = output_validation(SchemaName=UserTotalOut, data_out=data)
 
         return Response(data, status=200)
