@@ -1,12 +1,12 @@
 from rest_framework.response import Response
 from json import loads
 
-from src.repositories import role_repos
+from src.repositories import role_repos, RoleRepo
 from src.schemas import RoleIn, RoleOut, RoleTotalOut, RoleUpdate, input_validation, output_validation
 
 class RoleService:
 
-    def __init__(self, repo):
+    def __init__(self, repo: RoleRepo):
         self.repo = repo
 
     def create_role(self, request):
@@ -28,9 +28,9 @@ class RoleService:
     def read_role_query(self, request):
         query_data = request.GET.dict()
 
-        data = self.repo.read(ModelName="Role", query_data=query_data)
+        data = self.repo.read_role_query(query_data=query_data)
         data = output_validation(SchemaName=RoleTotalOut, data_out=data)
-
+    
         return Response(data, status=200)
     
     def update_role(self, request):
