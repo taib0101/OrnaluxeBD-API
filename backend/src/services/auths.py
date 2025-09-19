@@ -20,7 +20,7 @@ class AuthService:
         else:
             data_in['phone'] = data_in.pop('identifier')
 
-        login_data = self.repo.read_for_auth(query_data=data_in)
+        login_data = self.repo.read_for_auth(query_data=data_in) 
 
         token = {
             'access_token': Token.create_token(
