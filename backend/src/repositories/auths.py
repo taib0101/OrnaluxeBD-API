@@ -8,7 +8,7 @@ class AuthRepo(Base):
     def __init__(self, model_dict: DictModel):
         super().__init__(model_dict=model_dict)
         
-    def read_for_auth(self, query_data: dict):
+    def login(self, query_data: dict):
         temp_data_in = query_data.copy()
         temp_data_in.pop('password')
 
