@@ -2,13 +2,13 @@ from rest_framework.response import Response
 from json import loads
 
 from src.schemas import AdminIn, input_validation
-from src.repositories import role_repos
+from src.repositories import role_repos, RoleRepo
 from src.utils import Hash
 from src.supports import AppExceptionCase
 
 class AdminService:
 
-    def __init__(self, repo):
+    def __init__(self, repo: RoleRepo):
         self.repo = repo
 
     def create_inital_admin(self, request):
@@ -21,6 +21,7 @@ class AdminService:
 
         # role create of admin
         role_data = user_data = {}
+        role_data['role_name'] = requested_body['role_name']
         role_db_data = self.repo.create(ModelName="Role", data_in=role_data, temp_write="no")
 
         # user create of admin
