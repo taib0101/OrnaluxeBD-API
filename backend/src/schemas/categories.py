@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 class CategoryBase(serializers.Serializer):
-    name = serializers.CharField()
+    category_name = serializers.CharField()
 
 class CategoryIn(CategoryBase):
     pass
