@@ -14,6 +14,8 @@ class AuthRepo(Base):
 
         login_data = self.read(ModelName="User", query_data=temp_data_in)
 
+        print("login : ", login_data)
+
         if isinstance(login_data, AppException):
             raise AppExceptionCase.UnAuthorized("Invalid Login")
 
