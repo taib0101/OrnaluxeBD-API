@@ -16,13 +16,9 @@ def input_validation(SchemaName, data_in):
 
 def output_validation(SchemaName, data_out):
     try:
+        data_out = SchemaName(instance=data_out) # or SchemaName(instance=data_out, many=True) it works like [{"data": "message"}]
 
-        if not isinstance(data_out, AppException):
-            data_out = SchemaName(instance=data_out) # or SchemaName(instance=data_out, many=True) it works like [{"data": "message"}]
-
-            return data_out.data
-    
-        return data_out
+        return data_out.data
     
     except ValidationError:
         raise AppExceptionCase.DatabaseError("Database Error")
