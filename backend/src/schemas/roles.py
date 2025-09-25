@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 class RoleBase(serializers.Serializer):
-    name = serializers.CharField()
+    role_name = serializers.CharField()
 
 class RoleIn(RoleBase):
     pass
