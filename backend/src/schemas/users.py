@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 
 class UserBase(serializers.Serializer):
-    name = serializers.CharField()
+    user_name = serializers.CharField()
     email = serializers.EmailField()
     phone = serializers.CharField()
 
@@ -21,7 +21,7 @@ class UserTotalOut(serializers.Serializer):
     data = UserOut(many=True)
 
 class UserUpdate(serializers.Serializer):
-    name = serializers.CharField(required=False, allow_null=True)
+    user_name = serializers.CharField(required=False, allow_null=True)
     email = serializers.EmailField(required=False, allow_null=True)
     phone = serializers.CharField(required=False, allow_null=True)
 
