@@ -4,6 +4,9 @@ class DictModel:
     Role = Role
     User = User
     Category = Category
+    Product= Product
+    ProductImage = ProductImage
+    Rating = Rating
 
 
 dict_model = {
