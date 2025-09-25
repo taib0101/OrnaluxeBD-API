@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from json import loads
 
-from src.repositories import user_repos, UserRepo
+from src.repositories import user_repos, role_repos, UserRepo
 from src.schemas import UserIn, UserOut, UserTotalOut, UserUpdate, input_validation, output_validation
 from src.utils import Hash
 
@@ -16,13 +16,13 @@ class UserService:
         data_in = input_validation(SchemaName=UserIn, data_in=requested_body)
 
         role_info = {
-            'name': 'admin'
+            'role_name': 'admin'
         }
 
-        role_data = self.repo.read(ModelName="Role", query_data=role_info)
+        role_data = role_repos.read_role_query(query_data=role_info)
 
         data_in['role_id'] = role_data['data'][0]['role_id']
-        data_in['role_name'] = role_data['data'][0]['name']
+        data_in['role_name'] = role_data['data'][0]['role_name']
         data_in['password'] = Hash.create_pass(data_in['password'])
 
         user_data = self.repo.create(ModelName="User", data_in=data_in, temp_write="no")
