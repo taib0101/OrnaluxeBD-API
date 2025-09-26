@@ -1,11 +1,11 @@
 from .base import Base
-from src.models import dict_model
+from src.models import dict_model, DictModel
 from src.supports import AppException, AppExceptionCase
 
 class RoleRepo(Base):
 
-    def __init__(self, model_dict):
-        super().__init__(model_dict)
+    def __init__(self, model_dict: DictModel):
+        super().__init__(model_dict=model_dict)
 
     def read_role_query(self, query_data: dict):
         data = self.read(ModelName="Role", query_data=query_data)
