@@ -9,6 +9,7 @@ class ProductService:
     def __init__(self, repo: ProductRepo):
         self.repo = repo
 
+
     def create_product_base(self, request):
         requested_body = loads(request.body)
 
@@ -20,25 +21,28 @@ class ProductService:
         category_data = category_repos.read_category_query(query_data=category_id)
 
         product_data = self.repo.create(ModelName="Product", data_in=data_in, temp_write="no")
-        product_data['category_id'] = product_data['category']
+        product_data['category_id'] = product_data.pop('category')
 
         product_data = output_validation(SchemaName=ProductOut, data_out=product_data)
 
         return Response(data=product_data, status=200)
     
+
     def read_product_all_base(self, request):
         data = self.repo.read_all(ModelName="Product")
         data = output_validation(SchemaName=ProductTotalOut, data_out=data)
 
         return Response(data=data, status=200)
     
+
     def read_product_query_base(self, request):
         query_data = request.GET.dict()
         
-        data = self.repo.read_user_query(query_data=query_data)
+        data = self.repo.read_product_query(query_data=query_data)
         data = output_validation(SchemaName=ProductTotalOut, data_out=data)
 
         return Response(data=data, status=200)
+
 
     def update_product_base(self, request):
         requested_body = loads(request.body)
@@ -52,7 +56,8 @@ class ProductService:
 
         return Response(data, status=200)
     
-    def delete_product(self, request):
+    
+    def delete_product_base(self, request):
         query_data = request.GET.dict()
 
         data = self.repo.delete(ModelName="Product", query_data=query_data, temp_write="no")
