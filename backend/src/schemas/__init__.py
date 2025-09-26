@@ -5,3 +5,4 @@ from .admins import *
 from .categories import *
 from .validation import *
 from .products import *
+from .product_images import *
