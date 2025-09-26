@@ -4,7 +4,7 @@ from src.supports import AppException, AppExceptionCase
 class CategoryRepo(Base):
 
     def __init__(self, model_dict: DictModel):
-        super().__init__(model_dict=dict_model)
+        super().__init__(model_dict=model_dict)
 
     def read_category_query(self, query_data: dict):
         data = self.read(ModelName="Category", query_data=query_data)
