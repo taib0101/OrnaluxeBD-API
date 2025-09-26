@@ -120,9 +120,8 @@ class Product(models.Model):
 class ProductImage(models.Model):
 
     serial_number = models.IntegerField(unique=True, null=False)
-
-    # OneToOneField as alternative of ForeignKey, For Definging Week Entity, and Remind that you have to assign ON DELETE CASCADE, if you do ON DELETE CASCADE and create by ForeignKey models class product image table will automatically create id attribute.
-    product = models.OneToOneField(Product, primary_key=True, unique=True, on_delete=models.CASCADE, related_name="product_images")
+    product_image_id = models.CharField(primary_key=True, default=unique_id, unique=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="product_images")
     product_name = models.CharField(max_length=300, unique=False, null=False)
     image_string = models.CharField(max_length=300, unique=False, null=False)
     image_url = models.CharField(max_length=300, unique=False, null=False)
@@ -135,6 +134,7 @@ class ProductImage(models.Model):
         db_table = "product_images"
         indexes = [
             models.Index(fields=["serial_number"]),
+            models.Index(fields=["product_image_id"]),
             models.Index(fields=["product_id"]),
             models.Index(fields=["product_name"]),
             models.Index(fields=["image_string"]),
@@ -144,7 +144,7 @@ class ProductImage(models.Model):
 
     def save(self, *args, **kwargs):
         last = ProductImage.objects.order_by("-serial_number").first()
-        self.serial_number = (last + 1) if last else 1
+        self.serial_number = (last.serial_number + 1) if last else 1
         super().save(*args, **kwargs)
 
 
@@ -153,6 +153,7 @@ class Rating(models.Model):
     serial_number = models.IntegerField(unique=True, null=False)
     rating_id = models.CharField(primary_key=True, default=unique_id, unique=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="ratings")
+    product_name = models.CharField(max_length=300, unique=False, null=False)
     rating_number = models.IntegerField()
     created_at = models.DateTimeField(null=False)
     updated_at = models.DateTimeField(null=True)
