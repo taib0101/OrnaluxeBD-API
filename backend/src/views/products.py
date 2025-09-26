@@ -51,5 +51,5 @@ class ProductDeleteBase(APIView):
 
     @delete_product_base(request=None, responses=ProductDelete)
     def get(self, request):
-        data = product_services.delete_product(request=request)
+        data = product_services.delete_product_base(request=request)
         return data
