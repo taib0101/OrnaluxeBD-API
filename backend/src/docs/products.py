@@ -48,8 +48,8 @@ def read_product_base(request: None, responses: ProductTotalOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Read Single Base Product In a Table",
-        description="Read Single Base Product In a Table",
+        summary="Read A Single Base Product In a Table",
+        description="Read A Single Base Product In a Table",
         tags=["Product"],
         parameters=[
             product_id_parameter(required=True)
@@ -63,8 +63,8 @@ def update_product_base(request: ProductUpdate, responses: ProductTotalOut):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Update Single Base Product In a Table",
-        description="Update Single Base Product In a Table",
+        summary="Update A Single Base Product In a Table",
+        description="Update A Single Base Product In a Table",
         tags=["Product"],
         parameters=[
             product_id_parameter(required=True)
@@ -78,8 +78,8 @@ def delete_product_base(request: None, responses: ProductDelete):
 
     return extend_schema(
         auth=[{"jwtAuth": []}],
-        summary="Delete Single Base Product In a Table",
-        description="Delete Single Base Product In a Table",
+        summary="Delete A Single Base Product In a Table",
+        description="Delete A Single Base Product In a Table",
         tags=["Product"],
         parameters=[
             product_id_parameter(required=True)
