@@ -7,7 +7,8 @@ from src.endpoints import (
     admins_endpoint, 
     categories_endpoint,
     products_endpoint,
-    products_image_endpoints
+    products_image_endpoints,
+    products_rating_endpoint
 )
 
 v1 = [
@@ -17,5 +18,6 @@ v1 = [
     path("v1/", include(admins_endpoint)),
     path("v1/", include(categories_endpoint)),
     path("v1/", include(products_endpoint)),
-    path("v1/", include(products_image_endpoints))
+    path("v1/", include(products_image_endpoints)),
+    path("v1/", include(products_rating_endpoint))
 ]
