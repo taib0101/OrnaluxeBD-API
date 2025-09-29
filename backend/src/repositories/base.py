@@ -1,12 +1,13 @@
 from django.forms.models import model_to_dict
 from django.db import transaction, IntegrityError
 from django.utils import timezone
+from django.core.exceptions import FieldError
 
 from src.supports import AppExceptionCase
 from src.models import DictModel
 
 def database_error_info(pg_error_code):
-    print("pg code error : ", (pg_error_code))
+    print("pg code error : ", pg_error_code)
 
     if pg_error_code == "23505":
         return AppExceptionCase.Conflict("Duplicate Value")
@@ -32,9 +33,9 @@ class Base:
                 
             return model_to_dict(create_data)
         
-        except IntegrityError as integrity_exception:
+        except IntegrityError as db_exception:
             raise database_error_info(
-                pg_error_code=integrity_exception.__cause__.pgcode
+                pg_error_code=db_exception.__cause__.pgcode
             )
     
 
@@ -49,17 +50,22 @@ class Base:
     
 
     def read(self, ModelName: str, query_data: dict):
-        with transaction.atomic():
-            read_data = self.model_dict[ModelName].objects.filter(**query_data)
+        try:
+            with transaction.atomic():
+                read_data = self.model_dict[ModelName].objects.filter(**query_data)
 
-            if not read_data:
-                return AppExceptionCase.NotFoundError("Not Found")
+                if not read_data:
+                    return AppExceptionCase.NotFoundError("Not Found")
 
-        return {
-            "total": len(read_data),
-            "data": list(read_data.values())
-        }
+            return {
+                "total": len(read_data),
+                "data": list(read_data.values())
+            }
 
+        except FieldError:
+            raise database_error_info(
+                pg_error_code=None
+            )
         
     def update(self, ModelName: str, query_data: dict, data_update: dict, temp_write: str):
         try:
@@ -77,23 +83,30 @@ class Base:
 
             return updated_data
         
-        except IntegrityError as integrity_exception:
+        except (IntegrityError, FieldError) as db_exception:
             raise database_error_info(
-                pg_error_code=integrity_exception.__cause__.pgcode
+                pg_error_code = db_exception.__cause__.pgcode
+                if isinstance(db_exception, IntegrityError) else None 
             )
         
 
     def delete(self, ModelName: str, query_data: dict, temp_write: str):
-        with transaction.atomic():
-            delete_data = self.model_dict[ModelName].objects.filter(**query_data).delete()
+        try:
+            with transaction.atomic():
+                delete_data = self.model_dict[ModelName].objects.filter(**query_data).delete()
 
-            if not delete_data[0]:
-                raise AppExceptionCase.NotFoundError("Not Found")
+                if not delete_data[0]:
+                    raise AppExceptionCase.NotFoundError("Not Found")
 
-            if temp_write == "yes":
-                transaction.set_rollback(True)
-                return None
+                if temp_write == "yes":
+                    transaction.set_rollback(True)
+                    return None
 
-        return {
-            "message": f"{delete_data[0]} data deleted"
-        }
+            return {
+                "message": f"{delete_data[0]} data deleted"
+            }
+
+        except FieldError:
+            raise database_error_info(
+                pg_error_code=None
+            )
