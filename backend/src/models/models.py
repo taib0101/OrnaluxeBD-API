@@ -154,7 +154,7 @@ class Rating(models.Model):
     rating_id = models.CharField(primary_key=True, default=unique_id, unique=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name="ratings")
     product_name = models.CharField(max_length=300, unique=False, null=False)
-    rating_number = models.IntegerField()
+    rating_number = models.IntegerField(null=False)
     created_at = models.DateTimeField(null=False)
     updated_at = models.DateTimeField(null=True)
 
