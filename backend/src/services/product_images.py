@@ -19,7 +19,7 @@ class ProdcutImageService:
         product_id = {
             "product_id": data_in['product_id']
         }
-        category_data = product_repos.read_product_query(query_data=product_id)
+        product_data = product_repos.read_product_query(query_data=product_id)
 
         product_image_data = self.repo.create(ModelName="ProductImage", data_in=data_in, temp_write="no")
         product_image_data['product_id'] = product_image_data.pop('product')
