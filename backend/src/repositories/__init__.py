@@ -6,3 +6,4 @@ from .admins import *
 from .categories import *
 from .products import *
 from .product_images import *
+from .product_ratings import *
