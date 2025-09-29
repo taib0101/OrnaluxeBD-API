@@ -163,5 +163,11 @@ class Rating(models.Model):
         indexes = [
             models.Index(fields=["rating_id"]),
             models.Index(fields=["product_id"]),
+            models.Index(fields=["product_name"]),
             models.Index(fields=["rating_number"])
         ]
+
+    def save(self, *args, **kwargs):
+        last = Rating.objects.order_by("-serial_number").first()
+        self.serial_number = (last.serial_number + 1) if last else 1
+        super().save(*args, **kwargs)
