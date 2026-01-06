@@ -1,5 +1,6 @@
 from rest_framework.views import exception_handler
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 from django.db import IntegrityError
 from django.core.exceptions import FieldError
 
@@ -16,6 +17,9 @@ def custom_exception(exception, context):
 
     elif isinstance(exception, FieldError):
         response = exception_handler(AppExceptionCase.BadRequest("Bad Request for Database"), context)
+
+    elif isinstance(exception, ValidationError):
+        response = exception_handler(AppExceptionCase.BadRequest("Bad Request"), context)
 
     elif isinstance(exception, AppException):
         response = exception_handler(exception, context)
