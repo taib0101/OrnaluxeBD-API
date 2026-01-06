@@ -1,47 +1,28 @@
 from django.forms.models import model_to_dict
-from django.db import transaction, IntegrityError
+from django.db import transaction
 from django.utils import timezone
-from django.core.exceptions import FieldError
 
 from src.supports import AppExceptionCase
-from src.models import DictModel
-
-def database_error_info(pg_error_code):
-    print("pg code error : ", pg_error_code)
-
-    if pg_error_code == "23505":
-        return AppExceptionCase.Conflict("Duplicate Value")
-    elif pg_error_code == "23503":
-        return AppExceptionCase.BadRequest("Bad Request for Foreign key violation")
-    elif pg_error_code == "23502":
-        return AppExceptionCase.BadRequest("Bad Request for Not Null violation")
-    
-    return AppExceptionCase.BadRequest("Bad Request for Database")
+from src.models import Models, Model
 
 class Base:
-    def __init__(self, model_dict: DictModel):
-        self.model_dict = model_dict
+
+    Model: Models = Model
 
     def create(self, ModelName: str, data_in: dict, temp_write: str):
-        try:
-            with transaction.atomic():
-                create_data = self.model_dict[ModelName].objects.create(**data_in, created_at=timezone.now())
+        with transaction.atomic():
+            create_data = self.Model[ModelName].objects.create(**data_in, created_at=timezone.now())
 
-                if temp_write == "yes":
-                    transaction.set_rollback(True)
-                    return None
-                
-            return model_to_dict(create_data)
-        
-        except IntegrityError as db_exception:
-            raise database_error_info(
-                pg_error_code=db_exception.__cause__.pgcode
-            )
-    
+            if temp_write == "yes":
+                transaction.set_rollback(True)
+                return None
+            
+        return model_to_dict(create_data)
+
 
     def read_all(self, ModelName: str):
         with transaction.atomic():
-            read_data = self.model_dict[ModelName].objects.all()
+            read_data = self.Model[ModelName].objects.all()
 
         return {
             "total": len(read_data),
@@ -50,63 +31,46 @@ class Base:
     
 
     def read(self, ModelName: str, query_data: dict):
-        try:
-            with transaction.atomic():
-                read_data = self.model_dict[ModelName].objects.filter(**query_data)
+        with transaction.atomic():
+            read_data = self.Model[ModelName].objects.filter(**query_data)
 
-                if not read_data:
-                    return AppExceptionCase.NotFoundError("Not Found")
+            if not read_data:
+                return AppExceptionCase.NotFoundError("Not Found")
 
-            return {
-                "total": len(read_data),
-                "data": list(read_data.values())
-            }
+        return {
+            "total": len(read_data),
+            "data": list(read_data.values())
+        }
 
-        except FieldError:
-            raise database_error_info(
-                pg_error_code=None
-            )
         
     def update(self, ModelName: str, query_data: dict, data_update: dict, temp_write: str):
-        try:
-            with transaction.atomic():
-                updated_data = self.model_dict[ModelName].objects.filter(**query_data).update(**data_update, updated_at=timezone.now())
+        with transaction.atomic():
+            updated_data = self.Model[ModelName].objects.filter(**query_data).update(**data_update, updated_at=timezone.now())
 
-                if not updated_data:
-                    raise AppExceptionCase.NotFoundError("Not Found")
+            if not updated_data:
+                raise AppExceptionCase.NotFoundError("Not Found")
 
-                if temp_write == "yes":
-                    transaction.set_rollback(True)
-                    return None
-            
-                updated_data = self.read(ModelName, query_data)
-
-            return updated_data
+            if temp_write == "yes":
+                transaction.set_rollback(True)
+                return None
         
-        except (IntegrityError, FieldError) as db_exception:
-            raise database_error_info(
-                pg_error_code = db_exception.__cause__.pgcode
-                if isinstance(db_exception, IntegrityError) else None 
-            )
+            updated_data = self.read(ModelName, query_data)
+
+        return updated_data
+        
         
 
     def delete(self, ModelName: str, query_data: dict, temp_write: str):
-        try:
-            with transaction.atomic():
-                delete_data = self.model_dict[ModelName].objects.filter(**query_data).delete()
+        with transaction.atomic():
+            delete_data = self.Model[ModelName].objects.filter(**query_data).delete()
 
-                if not delete_data[0]:
-                    raise AppExceptionCase.NotFoundError("Not Found")
+            if not delete_data[0]:
+                raise AppExceptionCase.NotFoundError("Not Found")
 
-                if temp_write == "yes":
-                    transaction.set_rollback(True)
-                    return None
+            if temp_write == "yes":
+                transaction.set_rollback(True)
+                return None
 
-            return {
-                "message": f"{delete_data[0]} data deleted"
-            }
-
-        except FieldError:
-            raise database_error_info(
-                pg_error_code=None
-            )
+        return {
+            "message": f"{delete_data[0]} data deleted"
+        }
