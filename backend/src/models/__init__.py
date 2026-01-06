@@ -1,1 +1,1 @@
-from .model_dict import *
+from .model_dictionary import *
